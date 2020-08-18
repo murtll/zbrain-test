@@ -9,4 +9,4 @@
 
 Все настройки доступа к БД находятся в файле src/main/resources/application.properties.
 
-Главный класс с pswm: src/main/java/org/zbrain/test/TestApplication.java
+Главный класс с psvm: src/main/java/org/zbrain/test/TestApplication.java
