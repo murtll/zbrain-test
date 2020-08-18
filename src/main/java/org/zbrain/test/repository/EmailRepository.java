@@ -5,5 +5,8 @@ import org.springframework.stereotype.Repository;
 import org.zbrain.test.entity.EmailModel;
 
 @Repository
-public interface EmailRepository extends JpaRepository<EmailModel, String> {
+public interface EmailRepository extends JpaRepository<EmailModel, Long> {
+
+    boolean existsByEmail(String email);
+
 }

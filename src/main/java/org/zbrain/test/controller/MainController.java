@@ -23,15 +23,14 @@ public class MainController {
     @ResponseBody
     public ResponseEntity<String> addEmail(@RequestBody EmailModel email) {
 
-        String emailPattern = "[\\w]{1,15}@[\\w]{1,15}+\\.[\\w]{1,5}";
-        Pattern pattern = Pattern.compile(emailPattern);
-        Matcher matcher = pattern.matcher(email.getEmail());
-
         ResponseEntity<String> response;
 
         try {
-
             if (email.getEmail() == null || email.getEmail().equals("")) throw new RuntimeException("Empty request!");
+
+            String emailPattern = "[\\w]{1,15}@[\\w]{1,15}+\\.[\\w]{1,5}";
+            Pattern pattern = Pattern.compile(emailPattern);
+            Matcher matcher = pattern.matcher(email.getEmail());
             if (!matcher.matches()) throw new RuntimeException("Not email!");
 
             response = emailService.addEmailIfNotAdded(email);

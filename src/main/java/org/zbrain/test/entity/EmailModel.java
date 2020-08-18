@@ -1,15 +1,16 @@
 package org.zbrain.test.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "email")
+@Table(name = "test_backend")
 public class EmailModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+
     @Column(name = "email")
     private String email;
 
@@ -26,5 +27,13 @@ public class EmailModel {
 
     public void setEmail(String emailAddress) {
         this.email = emailAddress;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

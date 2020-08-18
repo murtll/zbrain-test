@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public ResponseEntity<String> addEmailIfNotAdded(EmailModel email) {
 
-        if (emailRepository.existsById(email.getEmail())){
+        if (emailRepository.existsByEmail(email.getEmail())){
             return new ResponseEntity<>("{\"duplicate\": true}", HttpStatus.BAD_REQUEST);
         } else {
             emailRepository.save(email);
