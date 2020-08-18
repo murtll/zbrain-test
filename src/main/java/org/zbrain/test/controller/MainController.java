@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.zbrain.test.entity.EmailModel;
 import org.zbrain.test.service.EmailService;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Controller
 public class MainController {
 
@@ -20,10 +23,19 @@ public class MainController {
     @ResponseBody
     public ResponseEntity<String> addEmail(@RequestBody EmailModel email) {
 
+        String emailPattern = "[\\w]{1,15}@[\\w]{1,15}+\\.[\\w]{1,5}";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(email.getEmail());
+
         ResponseEntity<String> response;
 
         try {
+
+            if (email.getEmail() == null || email.getEmail().equals("")) throw new RuntimeException("Empty request!");
+            if (!matcher.matches()) throw new RuntimeException("Not email!");
+
             response = emailService.addEmailIfNotAdded(email);
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
