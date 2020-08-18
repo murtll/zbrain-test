@@ -1,6 +1,8 @@
 package org.zbrain.test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,14 +18,18 @@ public class MainController {
 
     @PostMapping(value = "/add-email", consumes = "application/json")
     @ResponseBody
-    public String addEmail(@RequestBody EmailModel email) {
+    public ResponseEntity<String> addEmail(@RequestBody EmailModel email) {
 
-        System.out.println(email.getEmail());
+        ResponseEntity<String> response;
 
-        boolean isRequestCorrect = emailService.addEmailIfNotAdded(email);
+        try {
+            response = emailService.addEmailIfNotAdded(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        if (isRequestCorrect) return "{\"status\":200}";
-        else return "{\"status\":400, \"duplicate\":true}";
+        return response;
     }
 
 }

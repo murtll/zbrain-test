@@ -1,6 +1,8 @@
 package org.zbrain.test.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.zbrain.test.entity.EmailModel;
 import org.zbrain.test.repository.EmailRepository;
@@ -12,16 +14,14 @@ public class EmailServiceImpl implements EmailService {
     private EmailRepository emailRepository;
 
     @Override
-    public boolean addEmailIfNotAdded(EmailModel email) {
-
-        System.out.println(email.getEmail());
+    public ResponseEntity<String> addEmailIfNotAdded(EmailModel email) {
 
         if (emailRepository.existsById(email.getEmail())){
-            return false;
+            return new ResponseEntity<>("{\"duplicate\": true}", HttpStatus.BAD_REQUEST);
         } else {
             emailRepository.save(email);
         }
 
-        return true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
